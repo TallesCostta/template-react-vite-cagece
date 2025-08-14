@@ -1,0 +1,33 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - develop
+      - release
+      - project
+      - staging
+  paths:
+    exclude:
+     - README.md
+     - .azuredevops/*
+
+pool: Default
+
+resources:
+  repositories:
+    - repository: azure-templates
+      type: git
+      name: azure-templates/pipelines
+
+name: $(Build.BuildId)
+
+stages:
+  - template: stages/docker/build-npm.yml@azure-templates
+
+  - template: stages/kubernetes/deploy-set-image.yml@azure-templates
+
+  - template: tools/stage-teste-sonar-docker-npm-v1.yml@azure-templates
+    parameters:
+      projectName: nomesistema-fe
+      projectKey: nomesistema-fe
+      nodeVersion: 20.19.0

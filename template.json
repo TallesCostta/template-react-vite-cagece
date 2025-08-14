@@ -1,0 +1,5 @@
+{
+  "name": "template-react-vite-cagece",
+  "description": "Template base para projetos React + Vite da Cagece",
+  "framework": "react-ts"
+}
