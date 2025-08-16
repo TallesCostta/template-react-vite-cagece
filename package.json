@@ -1,15 +1,20 @@
 {
-  "name": "nomesistema-fe",
+  "name": "create-template-react-vite-cagece",
   "private": true,
   "version": "1.0.0.0",
   "type": "module",
+  "bin": {
+    "create-template-react-vite-cagece": "./create-app.js"
+  },
+  "files": [
+    "template"
+  ],
   "build": "BUILD_NUMBER",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "postinstall": "node scripts/setup-env.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "axios": "1.7.2",
@@ -20,6 +25,7 @@
     "jspdf-autotable": "5.0.2",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.6",
+    "prompts": "2.4.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.23.1",

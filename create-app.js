@@ -1,12 +1,15 @@
+// create-app.js
+import { execSync } from 'child_process';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// O código do seu setup-env.js deve vir aqui
 import fs from "fs";
 import path from "path";
 import readline from "readline";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-// Resolvido para funcionar com ES Modules (sem __dirname)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,7 +18,6 @@ const rl = readline.createInterface({
 
 const ask = (q) => new Promise((res) => rl.question(q, res));
 
-// Função que substitui ou insere uma variável no conteúdo .env
 function replaceEnvVariable(content, key, value) {
   const regex = new RegExp(`^${key}=.*$`, "m");
   const line = `${key}=${value}`;
@@ -26,7 +28,6 @@ function replaceEnvVariable(content, key, value) {
   }
 }
 
-// Função para substituir placeholders em qualquer arquivo
 function replaceInFile(filePath, placeholder, value) {
   if (fs.existsSync(filePath)) {
     let content = fs.readFileSync(filePath, "utf-8");
@@ -83,12 +84,15 @@ function replaceInFile(filePath, placeholder, value) {
   const azurePipelinePath = path.join(process.cwd(), "azure-pipeline.yaml");
   const sonarPropertiesPath = path.join(process.cwd(), "sonar.properties");
 
-  // Substitui 'nomesistema-fe'
   replaceInFile(packageJsonPath, "nomesistema-fe", projectName);
   replaceInFile(azurePipelinePath, "nomesistema-fe", projectName);
-
-  // Substitui 'PROJECT_NAME' em sonar.properties
   replaceInFile(sonarPropertiesPath, "PROJECT_NAME", projectName);
 
   console.log("\n🎉 Configuração concluída! O projeto está pronto para ser usado.");
+
+  // Instala as dependências depois da configuração
+  console.log("\n📦 Instalando dependências...");
+  execSync('npm install', { stdio: 'inherit' });
+  console.log("✅ Dependências instaladas.");
+
 })();
